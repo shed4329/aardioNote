@@ -1,0 +1,53 @@
+import win.ui;
+/*DSG{{*/
+mainForm = win.form(text="解析播放器";right=959;bottom=591)
+mainForm.add(
+buttonOpen={cls="button";text="打开";left=555;top=15;right=668;bottom=44;z=2};
+buttonPlay={cls="button";text="解析播放";left=854;top=15;right=951;bottom=44;z=4};
+comboboxAPI={cls="combobox";left=683;top=15;right=842;bottom=41;edge=1;items={};mode="dropdown";z=3};
+custom={cls="custom";text="自定义控件";left=1;top=58;right=962;bottom=591;bgcolor=12639424;db=1;dl=1;dr=1;dt=1;z=5};
+txtUrl={cls="edit";left=7;top=15;right=550;bottom=49;dl=1;dt=1;edge=1;multiline=1;z=1}
+)
+/*}}*/
+
+import  web.form;//使用默认内核，直接上ie
+
+import fsys.ini;
+
+import process;
+
+ini = fsys.ini("\setting.ini");
+//ini.write("小节名","键名","新值")//可以写
+//ini.read("小节名","键名");//可以读
+list = ini.readKeys("解析接口");
+if(!list){//如果空，false写入
+	ini.write("解析接口","接口1","https://okjx.cc/?url=");
+}
+list = ini.readKeys("解析接口");
+for(i=1;#list;1){
+	mainForm.comboboxAPI.add(list[i]);
+}
+
+webViewer = web.form(mainForm.custom);//自定义组件加载浏览器
+webViewer.noScriptErr=true;//禁止弹出脚本错误对话框，允许脚本继续执行
+webViewer.NewWindow3 = function(ppDisp,cancel,dwFlags,bstrUrlContext,bstrUrl ) { 
+    return owner.openproxy;//超链接不在新窗口打开
+};
+
+mainForm.txtUrl.text=ini.read("上次观看的网址","网址");
+mainForm.txtUrl.text=ini.read("上次使用的接口","接口");
+mainForm.buttonOpen.oncommand = function(id,event){
+	//浏览器打开编辑框网址
+	webViewer.go(mainForm.txtUrl.text);
+	ini.write("上次观看的网址","网址",webViewer.location);
+	ini.write("上次使用的接口","接口",mainForm.comboboxAPI.selText);
+}
+mainForm.buttonPlay.oncommand = function(id,event){
+	str = ini.read("解析接口",mainForm.comboboxAPI.selText);
+	process.execute(str++webViewer.location)
+	//webViewer.go("https://okjx.cc/?url="++webViewer.location);//接口1
+}
+
+mainForm.enableDpiScaling();
+mainForm.show();
+return win.loopMessage();
