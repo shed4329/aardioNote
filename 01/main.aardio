@@ -1,0 +1,27 @@
+import win.ui;
+/*DSG{{*/
+mainForm = win.form(text="aardio工程";right=959;bottom=591)
+mainForm.add(
+edit={cls="edit";left=12;top=520;right=949;bottom=579;db=1;dl=1;dr=1;dt=1;edge=1;multiline=1;z=1}
+)
+/*}}*/
+
+import thread.command;
+var listener = thread.command();
+listener.print = function(...){
+	mainForm.edit.print(...)
+}
+
+thread.invoke( 
+	function(hwnd){
+		import thread.command;
+		
+		thread.command.print("hello world",1,2,3);
+		
+		thread.command.post("print","hello world",1,2,3);
+	}
+);
+
+mainForm.enableDpiScaling();
+mainForm.show();
+return win.loopMessage();
