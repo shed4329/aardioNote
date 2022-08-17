@@ -1,10 +1,24 @@
 import win.ui;
 /*DSG{{*/
-mainForm = win.form(text="aardio工程";right=959;bottom=591)
+mainForm = win.form(text="第一个aardio工程";right=959;bottom=591)
 mainForm.add(
+button={cls="button";text="Button";left=91;top=135;right=213;bottom=209;z=2};
+button2={cls="button";text="Button";left=239;top=135;right=361;bottom=209;z=3};
 edit={cls="edit";left=12;top=520;right=949;bottom=579;db=1;dl=1;dr=1;dt=1;edge=1;multiline=1;z=1}
 )
 /*}}*/
+
+io.open();
+import console;//也可以导入库来输出
+mainForm.button.oncommand = function(id,event){
+	year=2022;//动态语言，不像java，要写int year=2022;
+	mainForm.msgbox(year);
+	io.print(year);//先io.open,然后可以在控制台里面输出
+	console.log(year);//也可以这样在控制台中输出，好像是在同一个控制台里面输出两次
+	//console.varDump(console);会输出有关console的具体信息（输出console内容）
+	//console在win10以上的系统 alt+enter全屏，ctrl+shift+ +/- 切换透明度
+	//aardio好像还有一个不开源的debug库，可以自己写个工具来debug
+}
 
 import thread.command;
 var listener = thread.command();
