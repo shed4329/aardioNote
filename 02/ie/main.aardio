@@ -13,7 +13,6 @@ txtUrl={cls="edit";left=7;top=15;right=550;bottom=49;dl=1;dt=1;edge=1;multiline=
 import  web.form;//使用默认内核，直接上ie
 
 import fsys.ini;
-
 import process;
 
 ini = fsys.ini("\setting.ini");
@@ -33,13 +32,13 @@ webViewer.noScriptErr=true;//禁止弹出脚本错误对话框，允许脚本继
 webViewer.NewWindow3 = function(ppDisp,cancel,dwFlags,bstrUrlContext,bstrUrl ) { 
     return owner.openproxy;//超链接不在新窗口打开
 };
-
 mainForm.txtUrl.text=ini.read("上次观看的网址","网址");
-mainForm.txtUrl.text=ini.read("上次使用的接口","接口");
+mainForm.comboboxAPI.text=ini.read("上次使用的接口","接口");
+mainForm.comboboxAPI.selText=ini.read("上次使用的接口","接口");
 mainForm.buttonOpen.oncommand = function(id,event){
 	//浏览器打开编辑框网址
 	webViewer.go(mainForm.txtUrl.text);
-	ini.write("上次观看的网址","网址",webViewer.location);
+	ini.write("上次观看的网址","网址",mainForm.txtUrl.text);
 	ini.write("上次使用的接口","接口",mainForm.comboboxAPI.selText);
 }
 mainForm.buttonPlay.oncommand = function(id,event){
