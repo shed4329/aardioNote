@@ -1,0 +1,119 @@
+字符串
+	表达方式
+		1.var str = "mick";//只包含/n,不包含/r
+		2.var str = //中国
+		字符串在aardio中可以用注释来表示
+		3.var str = 'mick';//单引号，只有这种方式支持转义
+		4.var str = `mick`;//反引号
+		5./* */多行注释
+	换行 回车
+		anscii：10/13(回车/r) 10 换行符
+		'\r\n' 回车换行
+	转义
+		\\  = \
+		\b 退格
+		\" 双引号
+		\' 单引号
+		\[
+		\]
+		\f换页
+	常用操作
+		字符长度
+			var str = //中文114514fff
+			string.len(str);
+			//11个，中文也是一个
+			
+			也可以用#,数字和英文字母是一个，中文是3个
+			null或空字符串 为0
+				var str="";(算true，布尔运算）
+				var str=null；(算false）
+		连接字符串
+			++，string.concat,string.format
+			
+			console.log(string.concat(tostring(time()),"   正在执行",null);//空值会被忽略
+			console.log(string.format("%s%s%s",tostring(time())," 正在执行",null);//1.格式化，%s后面有几个参数，%s就要写几遍，可以多，不能少
+			//2.传入空值会报错，可以用null："",把值转成字符串
+			
+		大小写转换
+			string.upper("aBc");//=ABC,转大写
+			string.lower("IcE");//=ice，转小写
+		字符串截取
+			string.sub("汉字123China",1,2);//字符串位置从1开始计算，按字节计数，一个汉字不止一个字符，可能会获取到问号？
+			string.sub("汉字123China",1,2,true);//按字符来截取，结果 汉字 ，从第一个到第二个
+			string.sub("汉字123China",1,-1,true);//按字符来截取，结果 汉字123China，从第一个到最后一个
+			
+			string.left("汉字123China",3,true);//从左截取三个,结果汉字1
+			string.right("123",1,true);//从右截取一个，结果1
+		清除字符
+			清除空格
+			console.log(string.trim(" mick"));//结果mick
+			清除字符
+			console.log(string.trim(" mick"," m "));//结果ick,以为清除m和字符，如果是"m"，只清除m
+		查找字符
+			string.indexOf("汉字4621","1");//结果10，汉字是三个字符
+			string.indexAny("汉字4621","4621"); //结果7,10，从7开始，到10结束，两种方法都支持查找多个字符
+		匹配字符
+			string.match("汉字4455mick","\a");//取出第一个字母,m
+			查找模式
+				\a 字母
+				\c 控制字符
+				\d 数字
+				\i 是否为Ascii码（字节码小于0x80）
+				\l 小写字母
+				\p 标点符号
+				\s 空白符
+				\u 大写字母
+				\w 字母和数字，以及下划线
+				\n 换行符
+				\x 十六进制数字
+				\r 回车符
+				\f 换页符'\x0c'
+				\v 匹配一个垂直制表符
+				\z 表示'\0'
+			匹配长度
+				pattern+ 匹配一次或多次
+				
+				string.match("汉字4455mick","\a+");//取出全部英文，mick
+				string.match("汉字4455mick",":+");//取出全部中文，汉字
+				string.match("汉字4455mick",":+",3);//还可以指定开始位置
+			这只会匹配出第一个结果
+			匹配多个结果
+				全局迭代匹配
+				for m,m2,m3 in string.gmatch("汉字4215mick","\d"){
+					console.log(m);
+					/*结果
+					 4
+					 2
+					 1
+					 5
+					 */
+				}
+				
+				for m,m2,m3 in string.gmatch("汉字4215mick","(:+)(\d+)"){//分组
+					console.log(m,m2);
+					//把汉字和数字分别存储
+				}
+		替换字符
+			string.replace("汉字8092mick","8092","999");//结果汉字999mick
+			string.replace("汉字8092mick","\d+","999");//结果汉字999mick
+		读取文件
+			1.$
+			var str4 = $"~\fff.txt";//拖到工具里面就可以了
+			$ 包含运算符，将指定路径的文件链接到代码中
+			$链接的文件在发布时就已经包含在exe中了
+			2.string.load()
+			var str4 = string.load("\fff.txt");
+		保存文件
+			string.save();
+			string.save("\fff.txt","114514);//将fff.txt内容改为114514，也可以用""来清空
+			string.save("\fff.txt","114514,true);//追加模式
+		拆分字符
+			console.varDump(string.split(str3," "));//按空格来拆分，返回的是数组
+			console.varDump(string.split(str3," :"));//按空格和冒号来分别拆分，返回的是数组
+			模式串
+			string.splitEx(str3,"\d{4}");//出现四个连续的数字拆分，这四个数字不会存入数组 
+			
+		拼接字符串成数组
+			var tab=string.splitEx(str3,"\d{4}");
+			console.log(string.join(tab,"----"));	//字符串拼接成数组	
+
